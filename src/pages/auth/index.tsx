@@ -1,9 +1,13 @@
 import React from 'react';
+import Navbar from "@/components/navbar";
 
-type AuthPageProps = {
+type AuthPageProps = {};
 
-	};
-const Navbar:React.FC<AuthPageProps>=()=>{
-	return <div>Auth page</div>
-}
-export default Navbar;
+const AuthPage: React.FC<AuthPageProps> = () => {
+    return <div className="bg-gradient-to-b from-gray-600 to-black h-screen relative">
+        <div className="max-w-7xl mx-auto">
+            <Navbar />
+        </div>
+    </div>
+};
+export default AuthPage;
