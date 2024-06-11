@@ -3,6 +3,7 @@ import Navbar from "@/components/navbar";
 import { IoClose } from "react-icons/io5";
 import Login from "./Login";
 import Signup from "./Signup";
+import ResetPassword from "./ResetPassword";
 
 type AuthModalProps = {};
 
@@ -21,7 +22,7 @@ const AuthModal:React.F<AuthModalProps> = () => {
 							<IoClose/>
                             </button>
 						</div>
-                        <Signup/>
+                        <ResetPassword/>
 					</div>
 				</div>
 			</div>
