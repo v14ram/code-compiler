@@ -4,7 +4,7 @@ type ResetPasswordProps = {
 
 };
 
-const ResetPassword:React.FC<LoginProps>=()=>{
+const ResetPassword:React.FC<ResetPasswordProps>=()=>{
     return (
 		<form className='space-y-6 px-6 pb-4'>
 			<h3 className='text-xl font-medium text-white'>Reset Password</h3>
