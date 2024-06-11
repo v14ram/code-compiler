@@ -1,6 +1,7 @@
 import React from "react";
 import Navbar from "@/components/navbar";
 import { IoClose } from "react-icons/io5";
+import Login from "./Login";
 
 type AuthModalProps = {};
 
@@ -19,6 +20,7 @@ const AuthModal:React.F<AuthModalProps> = () => {
 							<IoClose/>
                             </button>
 						</div>
+                        <Login/>
 					</div>
 				</div>
 			</div>
