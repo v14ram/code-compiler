@@ -1,23 +1,36 @@
 import { authModalState } from '@/atoms/authModalAtom';
-import React from 'react'
+import React, { useState } from 'react'
 import { useSetRecoilState } from 'recoil';
 
 type SignupProps = {};
 
-const Signup:React.Fc<SignupProps> = ()=>{
+const Signup: React.FC<SignupProps> = () => {
 	const setAuthModalState = useSetRecoilState(authModalState);
 	const handleClick = () => {
 		setAuthModalState((prev) => ({ ...prev, type: "login" }));
 	};
+
+	const [inputs, setInputs] = useState({ email: '', displayName: '', password: '' })
+
+	const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const { name, value } = e.target
+		setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+	}
+	const handleRegister = (e: React.ChangeEvent<HTMLInputElement>) => {
+		e.preventDefault();
+		console.log(inputs);
+	}
+	console.log(inputs);
 	return (
-		<form className='space-y-6 px-6 pb-4'>
+		<form className='space-y-6 px-6 pb-4' onSubmit={handleRegister}>
 			<h3 className='text-xl font-medium text-white'>Register to Mr. Judge</h3>
 			<div>
 				<label htmlFor='email' className='text-sm font-medium block mb-2 text-gray-300'>
 					Email
 				</label>
 				<input
-					type='email'
+				onChange={handleChangeInput}
+				type='email'
 					name='email'
 					id='email'
 					className='
@@ -27,11 +40,12 @@ const Signup:React.Fc<SignupProps> = ()=>{
 					placeholder='name@company.com'
 				/>
 			</div>
-            <div>
+			<div>
 				<label htmlFor='displayName' className='text-sm font-medium block mb-2 text-gray-300'>
 					Display Name
 				</label>
 				<input
+					onChange={handleChangeInput}
 					type='displayName'
 					name='displayName'
 					id='displayName'
@@ -47,6 +61,7 @@ const Signup:React.Fc<SignupProps> = ()=>{
 					Password
 				</label>
 				<input
+				onChange={handleChangeInput}
 					type='password'
 					name='password'
 					id='password'
@@ -66,7 +81,7 @@ const Signup:React.Fc<SignupProps> = ()=>{
 			>
 				Register
 			</button>
-			
+
 			<div className='text-sm font-medium text-gray-300' onClick={handleClick}>
 				Already have an account{" "}
 				<a href='#' className='text-blue-700 hover:underline'>
