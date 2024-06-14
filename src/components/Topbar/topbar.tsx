@@ -22,12 +22,13 @@ const TopbarProps: React.FC<TopbarProps> = () =>{
 				<div className='flex items-center space-x-4 flex-1 justify-end'>
 					<div>
 						<a
-							href='https://www.buymeacoffee.com/burakorkmezz'
+							href='https://buymeacoffee.com/singhvikram'
 							target='_blank'
 							rel='noreferrer'
 							className='bg-dark-fill-3 py-1.5 px-3 cursor-pointer rounded text-brand-orange hover:bg-dark-fill-2'
 						>
-							Premium
+						 <img src='/coffee.png' alt='Buy me a coffee' className='w-6 h-6 inline-block mr-2' />
+						 Buy me a coffee 
 						</a>
 					</div>
                     {!user && (

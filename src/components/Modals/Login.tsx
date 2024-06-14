@@ -4,6 +4,7 @@ import { authModalState } from "@/atoms/authModalAtom";
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { auth } from '@/firebase/firebase';
 import router, { useRouter } from 'next/router';
+import { toast } from 'react-toastify';
 
 type LoginProps = {};
 
@@ -31,11 +32,11 @@ const Login: React.FC<LoginProps> = () => {
 			if (!newUser) return;
 			router.push("/");
 		} catch (error: any) {
-			alert(error.message);
+			toast.success(error.message , {position:"top-center", autoClose:3000, theme:"dark"});
 		}
 	};
-	useEffect(() => { if (error) alert(error.message); }, [error])
-	console.log(user, "user");
+	useEffect(() => { if (error) toast.success(error.message , {position:"top-center", autoClose:3000, theme:"dark"}); }, [error])
+		
 
 	return (
 		<form className='space-y-6 px-6 pb-4' onSubmit={handleLogin}>
