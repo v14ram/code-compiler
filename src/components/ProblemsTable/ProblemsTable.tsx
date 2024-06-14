@@ -1,21 +1,40 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { problems } from "../mockProblems/Problems";
 import { BsCheckCircle } from "react-icons/bs";
 import Link from "next/link";
 import { AiFillYoutube } from "react-icons/ai";
+import { IoClose } from "react-icons/io5";
+import YouTube from "react-youtube";
 
 type ProblemsTableProps = {
 
 };
 
 const ProblemsTable: React.FC<ProblemsTableProps> = () => {
+    const [youtubePlayer, setYoutubePlayer] = useState({
+		isOpen: false,
+		videoId: "",
+	});
+    const closeModal = () => {
+		setYoutubePlayer({ isOpen: false, videoId: "" });
+	};
+
+	useEffect(() => {
+		const handleEsc = (e: KeyboardEvent) => {
+			if (e.key === "Escape") closeModal();
+		};
+		window.addEventListener("keydown", handleEsc);
+
+		return () => window.removeEventListener("keydown", handleEsc);
+	}, []);
     return (
+        <>
         <tbody className='text-white'>
             {problems.map((doc, ind) => {
                 const difficulyColor = doc.difficulty === "Easy" ? "text-dark-green-s" : doc.difficulty === "Medium" ? "text-dark-yellow" : "text-dark-pink";
-                function setYoutubePlayer(arg0: { isOpen: boolean; videoId: string; }): void {
-                    throw new Error("Function not implemented.");
-                }
+                // function setYoutubePlayer(arg0: { isOpen: boolean; videoId: string; }): void {
+                //     throw new Error("Function not implemented.");
+                // }
 
                 return (
                     <tr className={`${ind % 2 == 1 ? 'bg-dark-layer-1' : ''}`} key={doc.id} >
@@ -29,7 +48,7 @@ const ProblemsTable: React.FC<ProblemsTableProps> = () => {
                                 </Link>
                             </td>
                             {/* difficulty */}
-                            <td className="px-6 py-4 ${difficulyColor}`}>{problem.difficulty}">
+							<td className={`px-6 py-4 ${difficulyColor}`}>
                                 {doc.difficulty}
                             </td>
                             {/* category */}
@@ -38,7 +57,7 @@ const ProblemsTable: React.FC<ProblemsTableProps> = () => {
                             </td>
                             {/* video */}
 							<td className={"px-6 py-4"}>
-								{doc.videoId ? (
+                            {doc.videoId ? (
 									<AiFillYoutube
 										fontSize={"28"}
 										className='cursor-pointer hover:text-red-600'
@@ -55,6 +74,21 @@ const ProblemsTable: React.FC<ProblemsTableProps> = () => {
             })
             }
         </tbody >
+        {youtubePlayer.isOpen && (
+
+        <tfoot className='fixed top-0 left-0 h-screen w-screen flex items-center justify-center ' >
+		<div className='bg-black z-10 opacity-70 top-0 left-0 w-screen h-screen absolute' onClick={closeModal}></div>
+		<div className='w-full z-50 h-full px-6 relative max-w-4xl'>
+			<div className='w-full h-full flex items-center justify-center relative'>
+				<div className='w-full relative'>
+					<IoClose fontSize={"35"} className='cursor-pointer absolute -top-16 right-0' onClick={closeModal}/>
+					<YouTube videoId={youtubePlayer.videoId} loading='lazy' iframeClassName='w-full min-h-[500px]' />
+				</div>
+			</div>
+		</div>
+        </tfoot>
+        )}
+        </>
     )
 }
 
