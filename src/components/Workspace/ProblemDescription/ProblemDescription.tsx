@@ -62,7 +62,7 @@ const ProblemDescription: React.FC<ProblemDescriptionProps> = ({ problem }) => {
                             <div key={example.id}>
                                 <p className='font-medium text-white '>Example {index + 1}: </p>
                                 {example.img && (
-                                    <img src={example.img} alt="" />
+                                    <img src={example.img} alt="" className="mt-3"/>
                                 )}
                                 <div className='example-card'>
                                     <pre>
@@ -82,22 +82,10 @@ const ProblemDescription: React.FC<ProblemDescriptionProps> = ({ problem }) => {
                     </div>
 
                     {/* Constraints */}
-                    <div className='my-5'>
+                    <div className='my-8 pb-4'>
                         <div className='text-white text-sm font-medium'>Constraints:</div>
-                        <ul className='text-white ml-5 list-disc'>
-                            <li className='mt-2'>
-                                <code>2 ≤ nums.length ≤ 10</code>
-                            </li>
-
-                            <li className='mt-2'>
-                                <code>-10 ≤ nums[i] ≤ 10</code>
-                            </li>
-                            <li className='mt-2'>
-                                <code>-10 ≤ target ≤ 10</code>
-                            </li>
-                            <li className='mt-2 text-sm'>
-                                <strong>Only one valid answer exists.</strong>
-                            </li>
+                        <ul className='text-white ml-5 list-disc my-4'>
+                          <div dangerouslySetInnerHTML={{__html:problem.constraints}}/>
                         </ul>
                     </div>
                 </div>
