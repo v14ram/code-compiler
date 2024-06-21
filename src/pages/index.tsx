@@ -1,8 +1,38 @@
 import ProblemsTable from "@/components/ProblemsTable/ProblemsTable";
 import Topbar from "@/components/Topbar/topbar";
+import { firestore } from "@/firebase/firebase";
+import { doc, setDoc } from "firebase/firestore";
+import { useState } from "react";
 
 
 export default function Home() {
+  const [inputs, setInputs] = useState({
+    id: '',
+    title: '',
+    difficulty: '',
+    category: '',
+    videoId: '',
+    link: '',
+    order: 0,
+    likes: 0,
+    dislikes: 0,
+  })
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputs({
+      ...inputs,
+      [e.target.name]: e.target.value
+    })
+  }
+  const handleSubmit = async (e: React.FormEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    // convert inouts.order to integer
+    const newProblem={
+      ...inputs,
+      order:Number(inputs.order),
+    }
+    await setDoc(doc(firestore, "problems", inputs.id),inputs);
+    alert("Saved to database");
+  }
   return (
     <>
       <main
@@ -39,11 +69,25 @@ export default function Home() {
                 </th>
               </tr>
             </thead>
-            <ProblemsTable/>
+            <ProblemsTable />
           </table>
         </div>
+        <form className='p-6 flex flex-col max-w-sm gap-3' onSubmit={handleSubmit}>
+          <input onChange={handleInputChange} type='text' placeholder='problem id' name='id' />
+          <input onChange={handleInputChange} type='text' placeholder='title' name='title' />
+          <input onChange={handleInputChange} type='text' placeholder='difficulty' name='difficulty' />
+          <input onChange={handleInputChange} type='text' placeholder='category' name='category' />
+          <input onChange={handleInputChange} type='text' placeholder='order' name='order' />
+          <input onChange={handleInputChange} type='text' placeholder='videoId?' name='videoId' />
+          <input onChange={handleInputChange} type='text' placeholder='link?' name='link' />
 
+          <button className="bg-white">Save to db</button>
+        </form>
       </main>
     </>
   );
 }
+
+
+// import { initializeApp } from "firebase/app";
+// import { getFirestore } from "firebase/firestore";
