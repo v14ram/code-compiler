@@ -1,15 +1,18 @@
-import { Problem } from '@/utils/types/problem';
-import React from 'react';
+import { DBProblems, Problem } from '@/utils/types/problem';
+import React, { useEffect, useState } from 'react';
 import { AiFillLike, AiFillDislike } from 'react-icons/ai';
 import { BsCheck2Circle } from 'react-icons/bs';
 import { TiStarOutline } from 'react-icons/ti';
+import { firestore } from '@/firebase/firebase';
+import { doc, getDoc } from 'firebase/firestore';
 
-type ProblemDescriptionProps = {
+type ProblemDescriptionProps =
+{
     problem: Problem;
 };
 
 const ProblemDescription: React.FC<ProblemDescriptionProps> = ({ problem }) => {
-
+    useGetCurrentProblem(problem.id);
     return (<div className='bg-dark-layer-1'>
         {/* TAB */}
         <div className='flex h-11 w-full items-center pt-2 bg-dark-layer-2 text-white overflow-x-hidden'>
@@ -62,7 +65,7 @@ const ProblemDescription: React.FC<ProblemDescriptionProps> = ({ problem }) => {
                             <div key={example.id}>
                                 <p className='font-medium text-white '>Example {index + 1}: </p>
                                 {example.img && (
-                                    <img src={example.img} alt="" className="mt-3"/>
+                                    <img src={example.img} alt="" className="mt-3" />
                                 )}
                                 <div className='example-card'>
                                     <pre>
@@ -85,7 +88,7 @@ const ProblemDescription: React.FC<ProblemDescriptionProps> = ({ problem }) => {
                     <div className='my-8 pb-4'>
                         <div className='text-white text-sm font-medium'>Constraints:</div>
                         <ul className='text-white ml-5 list-disc my-4'>
-                          <div dangerouslySetInnerHTML={{__html:problem.constraints}}/>
+                            <div dangerouslySetInnerHTML={{ __html: problem.constraints }} />
                         </ul>
                     </div>
                 </div>
@@ -95,3 +98,23 @@ const ProblemDescription: React.FC<ProblemDescriptionProps> = ({ problem }) => {
     );
 }
 export default ProblemDescription;
+
+function useGetCurrentProblem(problemId: string) {
+    const [currentProblem, setcurrentProblem] = useState<DBProblems | null>(null);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [problemDifficultyClass, setProblemDifficultyClass] = useState<string>("");
+
+    useEffect(() => {
+        const getCurrentProblem=async()=>{
+        setLoading(true);
+        const docRef = doc(firestore, "problems", problemId)
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+            const problem = docSnap.data();
+            console.log(problem, "Current problem is here");
+        }
+    };
+    getCurrentProblem();
+}, [problemId])
+return { currentProblem, loading, problemDifficultyClass }
+}

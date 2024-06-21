@@ -1,9 +1,11 @@
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { authModalState } from '@/atoms/authModalAtom';
-import { auth } from '@/firebase/firebase';
+import { auth, firestore } from '@/firebase/firebase';
 import React, { useEffect, useState } from 'react'
 import { useSetRecoilState } from 'recoil';
-import {useRouter} from 'next/router';
+import { useRouter } from 'next/router';
+import { doc, setDoc } from 'firebase/firestore';
+import { toast } from 'react-toastify';
 
 type SignupProps = {};
 
@@ -13,28 +15,43 @@ const Signup: React.FC<SignupProps> = () => {
 		setAuthModalState((prev) => ({ ...prev, type: "login" }));
 	};
 
-	
+
 	const [inputs, setInputs] = useState({ email: '', displayName: '', password: '' });
 	const router = useRouter();
-	const [createUserWithEmailAndPassword,user,loading,error,] = useCreateUserWithEmailAndPassword(auth);
+	const [createUserWithEmailAndPassword, user, loading, error,] = useCreateUserWithEmailAndPassword(auth);
 
 	const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target
 		setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
 	};
-	
+
 	const handleRegister = async (e: React.FormEvent<HTMLInputElement>) => {
 		e.preventDefault();
-		if(!inputs.email || !inputs.password || !inputs.displayName) return alert("Please fill all fields");
+		if (!inputs.email || !inputs.password || !inputs.displayName) return alert("Please fill all fields");
 		try {
-            const newUser = await createUserWithEmailAndPassword(inputs.email, inputs.password);
-			if(!newUser) return;
+			toast.loading("Creating your account",{position:"top-center",toastId:"loadingToast"});
+			const newUser = await createUserWithEmailAndPassword(inputs.email, inputs.password)
+			if (!newUser) return;
+			const userData = {
+				uid: newUser.user.uid,
+				email: newUser.user.email,
+				displayName: inputs.displayName,
+				createdAt: Date.now(),
+				updatedAt: Date.now(),
+				likedProblems: [],
+				dislikedProblems: [],
+				solvedProblems: [],
+				starredProblems: [],
+			}
+			await setDoc(doc(firestore, "users", newUser.user.uid), userData)
 			router.push('/');
-		} catch (error:any) {
-            alert(error.message);
-        }
+		} catch (error: any) {
+			toast.error(error.message,{position:"top-center"});
+		} finally {
+			toast.dismiss("loadingToast")
+		}
 	};
-	useEffect(()=>{if(error) alert(error.message)},[error])
+	useEffect(() => { if (error) alert(error.message) }, [error])
 	return (
 		<form className='space-y-6 px-6 pb-4' onSubmit={handleRegister}>
 			<h3 className='text-xl font-medium text-white'>Register to Mr. Judge</h3>
@@ -43,8 +60,8 @@ const Signup: React.FC<SignupProps> = () => {
 					Email
 				</label>
 				<input
-				onChange={handleChangeInput}
-				type='email'
+					onChange={handleChangeInput}
+					type='email'
 					name='email'
 					id='email'
 					className='
@@ -75,7 +92,7 @@ const Signup: React.FC<SignupProps> = () => {
 					Password
 				</label>
 				<input
-				onChange={handleChangeInput}
+					onChange={handleChangeInput}
 					type='password'
 					name='password'
 					id='password'

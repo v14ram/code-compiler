@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { problems } from "../mockProblems/Problems";
+// import { problems } from "../mockProblems/Problems";
 import { BsCheckCircle } from "react-icons/bs";
 import Link from "next/link";
 import { AiFillYoutube } from "react-icons/ai";
@@ -7,6 +7,7 @@ import { IoClose } from "react-icons/io5";
 import YouTube from "react-youtube";
 import { firestore } from "@/firebase/firebase";
 import { collection, doc, getDocs, orderBy, query } from "firebase/firestore";
+import { DBProblems } from "@/utils/types/problem";
 
 type ProblemsTableProps = {
     setLoadingProblems: React.Dispatch<React.SetStateAction<boolean>>;
@@ -33,34 +34,40 @@ const ProblemsTable: React.FC<ProblemsTableProps> = ({ setLoadingProblems }) => 
     return (
         <>
             <tbody className='text-white'>
-                {problems.map((doc, ind) => {
-                    const difficulyColor = doc.difficulty === "Easy" ? "text-dark-green-s" : doc.difficulty === "Medium" ? "text-dark-yellow" : "text-dark-pink";
+                {problems.map((problem, ind) => {
+                    const difficulyColor = problem.difficulty === "Easy" ? "text-dark-green-s" : problem.difficulty === "Medium" ? "text-dark-yellow" : "text-dark-pink";
                     // function setYoutubePlayer(arg0: { isOpen: boolean; videoId: string; }): void {
                     //     throw new Error("Function not implemented.");
                     // }
 
                     return (
-                        <tr className={`${ind % 2 == 1 ? 'bg-dark-layer-1' : ''}`} key={doc.id} >
+                        <tr className={`${ind % 2 == 1 ? 'bg-dark-layer-1' : ''}`} key={problem.id} >
                             <th className='px-2 py-4 font-medium whitespace-nowrap text-dark-green-s'>
                                 <BsCheckCircle fontSize={"18"} width="18" />
                             </th>
                             {/* title */}
                             <td className="px-6 py-4">
-                                <Link className="hover:text-blue-600 cursor-pointer" href={`/problems/${doc.id}`}>
-                                    {doc.title}
-                                </Link>
+                                {problem.link ? (
+                                    <Link href={problem.link} className='hover:text-blue-600 cursor-pointer' target='_blank'>
+                                        {problem.title}
+                                    </Link>
+                                    ) : (
+                                    <Link className='hover:text-blue-600 cursor-pointer' href={`/problems/${problem.id}`}>
+                                        {problem.title}
+                                    </Link>
+                                )}
                             </td>
                             {/* difficulty */}
                             <td className={`px-6 py-4 ${difficulyColor}`}>
-                                {doc.difficulty}
+                                {problem.difficulty}
                             </td>
                             {/* category */}
                             <td className={"px-6 py-4"}>
-                                {doc.category}
+                                {problem.category}
                             </td>
                             {/* video */}
                             <td className={"px-6 py-4"}>
-                                {doc.videoId ? (
+                                {problem.videoId ? (
                                     <AiFillYoutube
                                         fontSize={"28"}
                                         className='cursor-pointer hover:text-red-600'
@@ -98,7 +105,7 @@ const ProblemsTable: React.FC<ProblemsTableProps> = ({ setLoadingProblems }) => 
 export default ProblemsTable;
 
 function useGetProblems(setLoadingProblems: React.Dispatch<React.SetStateAction<boolean>>) {
-    const [problems, setProblems] = useState([]);
+    const [problems, setProblems] = useState<DBProblems[]>([]);
 
     useEffect(() => {
         const getProblems = async () => {
@@ -106,13 +113,18 @@ function useGetProblems(setLoadingProblems: React.Dispatch<React.SetStateAction<
             setLoadingProblems(true);
             const q = query(collection(firestore, "problems"), orderBy("order", "asc"))
             const querySnapshot = await getDocs(q);
+            const tmp: DBProblems[] = [];
             querySnapshot.forEach((doc) => {
+                tmp.push({ id: doc.id, ...doc.data() } as DBProblems);
                 // doc.data() is never undefined for query doc snapshots
-                console.log(doc.id, " => ", doc.data());
+                // console.log(doc.id, " => ", doc.data());
+
             });
+            setProblems(tmp);
+            setLoadingProblems(false);
 
         };
         getProblems()
-    }, []);
+    }, [setLoadingProblems]);
     return problems;
 }
