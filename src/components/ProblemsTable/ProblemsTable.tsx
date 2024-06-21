@@ -6,7 +6,7 @@ import { AiFillYoutube } from "react-icons/ai";
 import { IoClose } from "react-icons/io5";
 import YouTube from "react-youtube";
 import { firestore } from "@/firebase/firebase";
-import { collection, getDocs, orderBy, query } from "firebase/firestore";
+import { collection, doc, getDocs, orderBy, query } from "firebase/firestore";
 
 type ProblemsTableProps = {
     setLoadingProblems: React.Dispatch<React.SetStateAction<boolean>>;
@@ -98,17 +98,21 @@ const ProblemsTable: React.FC<ProblemsTableProps> = ({ setLoadingProblems }) => 
 export default ProblemsTable;
 
 function useGetProblems(setLoadingProblems: React.Dispatch<React.SetStateAction<boolean>>) {
-    const [problems,setProblems]=useState([]);
+    const [problems, setProblems] = useState([]);
 
-    useEffect(()=>{
-        const getProblems=async()=>{
+    useEffect(() => {
+        const getProblems = async () => {
             //fetching data logic
             setLoadingProblems(true);
-            const q = query(collection(firestore,"problems"),orderBy("order","asc"))
-            const querySnapshot=await getDocs(q);
-            console.log(querySnapshot);
-        }
+            const q = query(collection(firestore, "problems"), orderBy("order", "asc"))
+            const querySnapshot = await getDocs(q);
+            querySnapshot.forEach((doc) => {
+                // doc.data() is never undefined for query doc snapshots
+                console.log(doc.id, " => ", doc.data());
+            });
+
+        };
         getProblems()
-    },[]);
+    }, []);
     return problems;
 }
