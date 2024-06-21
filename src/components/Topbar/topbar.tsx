@@ -8,8 +8,11 @@ import { authModalState } from "@/atoms/authModalAtom";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { BsList } from "react-icons/bs";
 import Timer from "../Timer/timer";
-import router, { useRouter } from "next/router";
-import { problems } from "../mockProblems/Problems";
+// import { problems } from "../mockProblems/Problems";
+// import { Problem } from "@/utils/types/problem";
+import { useRouter } from "next/router";
+import { problems } from "../../utils/problems";
+import { Problem } from "@/utils/types/problem";
 type TopbarProps = {
 	problemsPage?: boolean;
 };
@@ -18,25 +21,24 @@ const TopbarProps: React.FC<TopbarProps> = ({problemsPage}) => {
 	const [user] = useAuthState(auth);
 	const setAuthModalState = useSetRecoilState(authModalState);
 	const router = useRouter();
-	const handleProblemChange = (isForward: boolean) => {
-		console.log(router.query);
+	const handleProblemChange = (isForward: boolean) => {		
 		
-		// const { order } = problems[router.query.pid as string] as Problem;
-		// const direction = isForward ? 1 : -1;
-		// const nextProblemOrder = order + direction;
-		// const nextProblemKey = Object.keys(problems).find((key) => problems[key].order === nextProblemOrder);
+		const {order}=(problems[router.query.pid as string] as Problem);
+		const direction = isForward ? 1 : -1;
+		const nextProblemOrder = order + direction;
+		const nextProblemKey = Object.keys(problems).find((key) => problems[key].order === nextProblemOrder);
 
-		// if (isForward && !nextProblemKey) {
-		// 	const firstProblemKey = Object.keys(problems).find((key) => problems[key].order === 1);
-		// 	router.push(`/problems/${firstProblemKey}`);
-		// } else if (!isForward && !nextProblemKey) {
-		// 	const lastProblemKey = Object.keys(problems).find(
-		// 		(key) => problems[key].order === Object.keys(problems).length
-		// 	);
-		// 	router.push(`/problems/${lastProblemKey}`);
-		// } else {
-		// 	router.push(`/problems/${nextProblemKey}`);
-		// }
+		if (isForward && !nextProblemKey) {
+			const firstProblemKey = Object.keys(problems).find((key) => problems[key].order === 1);
+			router.push(`/problems/${firstProblemKey}`);
+		} else if (!isForward && !nextProblemKey) {
+			const lastProblemKey = Object.keys(problems).find(
+				(key) => problems[key].order === Object.keys(problems).length
+			);
+			router.push(`/problems/${lastProblemKey}`);
+		} else {
+			router.push(`/problems/${nextProblemKey}`);
+		}
 	};
 	
 	return (

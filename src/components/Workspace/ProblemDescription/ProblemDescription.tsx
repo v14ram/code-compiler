@@ -267,7 +267,7 @@ const ProblemDescription: React.FC<ProblemDescriptionProps> = ({ problem, _solve
 export default ProblemDescription;
 
 function useGetCurrentProblem(problemId: string) {
-	const [currentProblem, setCurrentProblem] = useState<DBProblem | null>(null);
+	const [currentProblem, setCurrentProblem] = useState<DBProblems | null>(null);
 	const [loading, setLoading] = useState<boolean>(true);
 	const [problemDifficultyClass, setProblemDifficultyClass] = useState<string>("");
 
@@ -279,7 +279,7 @@ function useGetCurrentProblem(problemId: string) {
 			const docSnap = await getDoc(docRef);
 			if (docSnap.exists()) {
 				const problem = docSnap.data();
-				setCurrentProblem({ id: docSnap.id, ...problem } as DBProblem);
+				setCurrentProblem({ id: docSnap.id, ...problem } as DBProblems);
 				// easy, medium, hard
 				setProblemDifficultyClass(
 					problem.difficulty === "Easy"
