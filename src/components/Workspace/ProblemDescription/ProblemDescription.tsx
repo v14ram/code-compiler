@@ -12,7 +12,7 @@ type ProblemDescriptionProps =
 };
 
 const ProblemDescription: React.FC<ProblemDescriptionProps> = ({ problem }) => {
-    useGetCurrentProblem(problem.id);
+    const {currentProblem, loading, problemDifficultyClass} = useGetCurrentProblem(problem.id);
     return (<div className='bg-dark-layer-1'>
         {/* TAB */}
         <div className='flex h-11 w-full items-center pt-2 bg-dark-layer-2 text-white overflow-x-hidden'>
@@ -28,27 +28,27 @@ const ProblemDescription: React.FC<ProblemDescriptionProps> = ({ problem }) => {
                     <div className='flex space-x-4'>
                         <div className='flex-1 mr-2 text-lg text-white font-medium'>{problem?.title}</div>
                     </div>
-                    <div className='flex items-center mt-3'>
+                    {!loading && currentProblem && (<div className='flex items-center mt-3'>
                         <div
-                            className={`text-olive bg-olive inline-block rounded-[21px] bg-opacity-[.15] px-2.5 py-1 text-xs font-medium capitalize `}
+                            className={`${problemDifficultyClass} inline-block rounded-[21px] bg-opacity-[.15] px-2.5 py-1 text-xs font-medium capitalize `}
                         >
-                            Easy
+                            {currentProblem.difficulty}
                         </div>
                         <div className='rounded p-[3px] ml-4 text-lg transition-colors duration-200 text-green-s text-dark-green-s'>
                             <BsCheck2Circle />
                         </div>
                         <div className='flex items-center cursor-pointer hover:bg-dark-fill-3 space-x-1 rounded p-[3px]  ml-4 text-lg transition-colors duration-200 text-dark-gray-6'>
                             <AiFillLike />
-                            <span className='text-xs'>120</span>
+                            <span className='text-xs'>{currentProblem.likes}</span>
                         </div>
                         <div className='flex items-center cursor-pointer hover:bg-dark-fill-3 space-x-1 rounded p-[3px]  ml-4 text-lg transition-colors duration-200 text-green-s text-dark-gray-6'>
                             <AiFillDislike />
-                            <span className='text-xs'>2</span>
+                            <span className='text-xs'>{currentProblem.dislikes}</span>
                         </div>
                         <div className='cursor-pointer hover:bg-dark-fill-3  rounded p-[3px]  ml-4 text-xl transition-colors duration-200 text-green-s text-dark-gray-6 '>
                             <TiStarOutline />
                         </div>
-                    </div>
+                    </div>)}
 
                     {/* Problem Statement(paragraphs) */}
                     <div className='text-white text-sm'>
@@ -111,8 +111,16 @@ function useGetCurrentProblem(problemId: string) {
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
             const problem = docSnap.data();
-            console.log(problem, "Current problem is here");
+            setcurrentProblem({id:docSnap.id,...problem} as DBProblems);
+            setProblemDifficultyClass(
+                problem.difficulty === "Easy"
+                   ? "bg-olive text-olive"
+                    : problem.difficulty === "Medium"
+                   ? "bg-dark-yellow text-dark-yellow"
+                    : "bg-dark-pink text-dark-pink"
+            )
         }
+        setLoading(false);
     };
     getCurrentProblem();
 }, [problemId])
