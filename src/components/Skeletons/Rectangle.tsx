@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-const RectangleSkeleton: React.FC<RectangleProps> = () => {
+const RectangleSkeleton: React.FC = () => {
     return (
         <div className='space-y-2.5 animate-pulse'>
             <div className='flex items-center w-full space-x-2'>
