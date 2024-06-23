@@ -1,7 +1,7 @@
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { authModalState } from '@/atoms/authModalAtom';
 import { auth, firestore } from '@/firebase/firebase';
-import React, { FormEvent, useEffect, useState } from 'react'
+import React, { ChangeEvent, FC, FormEvent, useEffect, useState } from 'react'
 import { useSetRecoilState } from 'recoil';
 import { useRouter } from 'next/router';
 import { doc, setDoc } from 'firebase/firestore';
@@ -9,7 +9,7 @@ import { toast } from 'react-toastify';
 
 type SignupProps = {};
 
-const Signup: React.FC<SignupProps> = () => {
+const Signup: FC<SignupProps> = () => {
 	const setAuthModalState = useSetRecoilState(authModalState);
 	const handleClick = () => {
 		setAuthModalState((prev) => ({ ...prev, type: "login" }));
@@ -20,7 +20,7 @@ const Signup: React.FC<SignupProps> = () => {
 	const router = useRouter();
 	const [createUserWithEmailAndPassword, user, loading, error,] = useCreateUserWithEmailAndPassword(auth);
 
-	const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const handleChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target
 		setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
 	};
