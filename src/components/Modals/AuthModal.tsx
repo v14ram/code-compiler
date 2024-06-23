@@ -29,7 +29,9 @@ const AuthModal: React.FC<AuthModalProps> = () => {
 								<IoClose className='h-5 w-5' />
 							</button>
 						</div>
-						{authModal.type === "login" ? <Login /> : authModal.type === "register" ? <Signup /> : <ResetPassword />}
+						{authModal.type === "login" ? <Login /> : authModal.type === "register" ? <Signup /> : authModal.type === "forgotPassword" ? <ResetPassword /> : null}
+
+						{/* {authModal.type === "login" ? <Login /> : authModal.type === "register" ? <Signup /> : <ResetPassword />} */}
 					</div>
 				</div>
 			</div>
