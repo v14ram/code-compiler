@@ -76,7 +76,7 @@ const ProblemsTable: React.FC<ProblemsTableProps> = ({ setLoadingProblems }) => 
                                         fontSize={"28"}
                                         className='cursor-pointer hover:text-red-600'
                                         onClick={() =>
-                                            setYoutubePlayer({ isOpen: true, videoId: doc.videoId as string })
+                                            setYoutubePlayer({ isOpen: true, videoId: problem.videoId as string })
                                         }
                                     />
                                 ) : (
