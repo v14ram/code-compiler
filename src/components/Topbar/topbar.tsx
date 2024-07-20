@@ -80,7 +80,7 @@ const TopbarProps: React.FC<TopbarProps> = ({problemsPage}) => {
 							rel='noreferrer'
 							className='bg-dark-fill-3 py-1.5 px-3 cursor-pointer rounded text-brand-orange hover:bg-dark-fill-2'
 						>
-							<img src='/coffee.png' alt='Buy me a coffee' className='w-6 h-6 inline-block mr-2' />
+							<img src='/Coffee.png' alt='Buy me a coffee' className='w-6 h-6 inline-block mr-2' />
 							Buy me a coffee
 						</a>
 					</div>
