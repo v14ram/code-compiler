@@ -14,7 +14,7 @@ export const problems: Problem[] = [
 		difficulty: "Easy",
 		category: "Array",
 		order: 1,
-		videoId: "8-k1C6ehKuw",
+		videoId: "EsIyLdgYtyk",
 	},
 	{
 		id: "reverse-linked-list",
@@ -22,7 +22,7 @@ export const problems: Problem[] = [
 		difficulty: "Hard",
 		category: "Linked List",
 		order: 2,
-		videoId: "",
+		videoId: "EsIyLdgYtyk",
 	},
 	{
 		id: "jump-game",
@@ -30,7 +30,7 @@ export const problems: Problem[] = [
 		difficulty: "Medium",
 		category: "Dynamic Programming",
 		order: 3,
-		videoId: "",
+		videoId: "EsIyLdgYtyk",
 	},
 	{
 		id: "valid-parentheses",
@@ -38,7 +38,7 @@ export const problems: Problem[] = [
 		difficulty: "Easy",
 		category: "Stack",
 		order: 4,
-		videoId: "xty7fr-k0TU",
+		videoId: "EsIyLdgYtyk",
 	},
 	{
 		id: "search-a-2d-matrix",
@@ -46,7 +46,7 @@ export const problems: Problem[] = [
 		difficulty: "Medium",
 		category: "Binary Search",
 		order: 5,
-		videoId: "ZfFl4torNg4",
+		videoId: "EsIyLdgYtyk",
 	},
 	{
 		id: "container-with-most-water",
@@ -54,7 +54,7 @@ export const problems: Problem[] = [
 		difficulty: "Medium",
 		category: "Two Pointers",
 		order: 6,
-		videoId: "",
+		videoId: "EsIyLdgYtyk",
 	},
 	{
 		id: "merge-intervals",
@@ -62,7 +62,7 @@ export const problems: Problem[] = [
 		difficulty: "Medium",
 		category: "intervals",
 		order: 7,
-		videoId: "",
+		videoId: "EsIyLdgYtyk",
 	},
 	{
 		id: "maximum-depth-of-binary-tree",
@@ -70,7 +70,7 @@ export const problems: Problem[] = [
 		difficulty: "Easy",
 		category: "Tree",
 		order: 8,
-		videoId: "4qYTqOiRMoM",
+		videoId: "EsIyLdgYtyk",
 	},
 	{
 		id: "best-time-to-buy-and-sell-stock",
@@ -78,7 +78,7 @@ export const problems: Problem[] = [
 		difficulty: "Easy",
 		category: "Array",
 		order: 9,
-		videoId: "",
+		videoId: "EsIyLdgYtyk",
 	},
 	{
 		id: "subsets",
@@ -86,6 +86,6 @@ export const problems: Problem[] = [
 		difficulty: "Medium",
 		category: "Backtracking",
 		order: 10,
-		videoId: "",
+		videoId: "EsIyLdgYtyk",
 	},
 ];
