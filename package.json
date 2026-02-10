@@ -13,7 +13,7 @@
     "@uiw/codemirror-theme-vscode": "^4.22.2",
     "@uiw/react-codemirror": "^4.22.2",
     "firebase": "^12.0.0",
-    "next": "15.4.2",
+    "next": "16.1.6",
     "react": "^18",
     "react-confetti": "^6.1.0",
     "react-dom": "^18",
