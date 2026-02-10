@@ -5,6 +5,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { RecoilRoot } from "recoil";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/next";
 export default function App({ Component, pageProps }: AppProps) {
   return (
       <RecoilRoot>
@@ -20,6 +21,7 @@ export default function App({ Component, pageProps }: AppProps) {
     <ToastContainer/>
        <Component {...pageProps} />
        <SpeedInsights />
+       <Analytics />
     </RecoilRoot>
     );
     
