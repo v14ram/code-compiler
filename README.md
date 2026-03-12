@@ -169,3 +169,151 @@ evaluated against concealed test cases. Based on the test results, participants 
 <h1>🛫 Plan</h1>
 <li>System components for Online Judge</li>
 <img src="https://github.com/VikkiSinghs/Mr.-Judge/blob/main/Screenshot%20(13).png" >
+
+
+# 🧱 Application Architecture Layers
+
+## APP ROUTES
+
+```powershell
+# =========================
+# APP ROUTES
+# =========================
+New-Item -ItemType Directory -Force -Path `
+app/java-concepts, `
+app/lld, `
+app/system-design, `
+app/problems/[problemId], `
+app/auth/signin, `
+app/auth/signup, `
+app/admin
+```
+
+---
+
+## ATOMS
+
+```powershell
+# =========================
+# ATOMS
+# =========================
+New-Item -ItemType Directory -Force -Path atoms
+```
+
+---
+
+## COMPONENTS
+
+```powershell
+# =========================
+# COMPONENTS
+# =========================
+New-Item -ItemType Directory -Force -Path `
+components/navbar, `
+components/topbar, `
+components/modals, `
+components/timer, `
+components/comment, `
+components/layout
+```
+
+---
+
+## FEATURES
+
+```powershell
+# =========================
+# FEATURES
+# =========================
+New-Item -ItemType Directory -Force -Path `
+features/auth, `
+features/problems, `
+features/comments, `
+features/content, `
+features/rbac
+```
+
+---
+
+## STYLES
+
+```powershell
+# =========================
+# STYLES
+# =========================
+New-Item -ItemType Directory -Force -Path styles/themes
+```
+
+---
+
+## MIDDLEWARE
+
+```powershell
+# =========================
+# MIDDLEWARE
+# =========================
+New-Item -ItemType Directory -Force -Path middleware
+```
+
+---
+
+# 📂 Project Structure
+
+```bash
+src
+├── app
+│   ├── admin
+│   ├── auth
+│   │   ├── signin
+│   │   │   └── page.tsx
+│   │   └── signup
+│   │       └── page.tsx
+│   ├── java-concepts
+│   │   └── page.tsx
+│   ├── lib
+│   │   └── page.tsx
+│   ├── problems
+│   │   ├── [problemId]
+│   │   │   └── page.tsx
+│   │   └── page.tsx
+│   ├── system-design
+│   │   └── page.tsx
+│   ├── favicon.ico
+│   ├── globals.css
+│   ├── layout.tsx
+│   └── page.tsx
+│
+├── atoms
+│
+├── components
+│   ├── comment
+│   ├── layout
+│   │   ├── AuthLayout.tsx
+│   │   └── MainLayout.tsx
+│   ├── modals
+│   ├── navbar
+│   │   └── Navbar.tsx
+│   ├── timer
+│   └── topbar
+│
+├── features
+│   ├── auth
+│   ├── comments
+│   ├── content
+│   ├── problems
+│   └── rbac
+│
+├── hooks
+├── lib
+├── middleware
+├── services
+├── store
+├── styles
+│   ├── themes
+│   └── globals.css
+│
+├── types
+└── utils
+```
+
+---
